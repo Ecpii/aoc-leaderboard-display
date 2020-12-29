@@ -1,5 +1,5 @@
 table, th, td {
-    border-left: 1px solid #ddd;
+    border: 1px solid #ddd;
     border-collapse: collapse;
 }
 
@@ -9,4 +9,13 @@ th, td {
 
 .bigHead {
     padding: 7px;
+}
+
+.timestamp-day {
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+}
+.timestamp-cell {
+    background-color: beige;
 }
