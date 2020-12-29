@@ -1,5 +1,16 @@
+body {
+    background: #0f0f23;
+    color: #ccc;
+    font-family: 'Source Code Pro', monospace;
+}
+
+h1 {
+    text-align: center;
+    padding: 15px;
+}
+
 table, th, td {
-    border: 1px solid #ddd;
+    /*border: 1px solid #ddd;*/
     border-collapse: collapse;
 }
 
@@ -16,6 +27,13 @@ th, td {
     text-align: center;
     font-size: 18px;
 }
-.timestamp-cell {
-    background-color: beige;
+
+.rank1 {
+    background-color: #ff6;
+    color: #000;
+}
+
+.rank2 {
+    background-color: #99c;
+    color: #000;
 }
