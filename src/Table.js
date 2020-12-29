@@ -11,7 +11,6 @@ export default function Table({ columns, data, rankings }) {
     } = useTable({
         columns, data
     })
-    console.log(rankings)
 
     if (rankings.length) {
         return (

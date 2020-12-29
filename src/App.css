@@ -18,6 +18,20 @@ th, td {
     padding: 15px;
 }
 
+button {
+    display: block;
+    margin: 20px auto;
+    background-color: transparent;
+    color: #ccc;
+    font-family: 'Source Code Pro', monospace;
+    border: 2px solid grey;
+    padding: 15px;
+}
+
+.tableArea {
+    overflow: auto
+}
+
 .bigHead {
     padding: 7px;
 }
