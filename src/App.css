@@ -57,6 +57,13 @@ button {
     color: #fff;
 }
 
+.puzzleRank {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2em;
+    margin: 0;
+}
+
 .timestamp-day {
     font-weight: bold;
     text-align: center;

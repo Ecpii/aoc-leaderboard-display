@@ -1,6 +1,8 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
+import PuzzleTableCell from "./PuzzleTableCell";
+
 export default function Table({ columns, data, rankings }) {
     const {
         getTableProps,
@@ -19,7 +21,7 @@ export default function Table({ columns, data, rankings }) {
                 {headerGroups.map(headerGroup => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
-                            <th {...column.getHeaderProps()} className='bigHead'>
+                            <th {...column.getHeaderProps()}>
                                 {column.render('Header')}
                             </th>
                         ))}
@@ -31,11 +33,8 @@ export default function Table({ columns, data, rankings }) {
                     prepareRow(row);
                     return (
                         <tr {...row.getRowProps()}>
-                            {row.cells.map((cell, i) => {
-                                return <td {...cell.getCellProps()}
-                                           className={'rank' + (1 + rankings[i][memberIndex])}>
-                                    {cell.render('Cell')}
-                                </td>
+                            {row.cells.map((cell, puzzleNum) => {
+                                return <PuzzleTableCell cell={cell} rank={1 + rankings[puzzleNum][memberIndex]} />
                             })}
                         </tr>
                     );

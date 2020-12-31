@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import getOrdinal from "./getOrdinal";
 
 
 export default function NameTable({lbData}) {
@@ -16,31 +17,6 @@ export default function NameTable({lbData}) {
         }
         setOverallRankings(rankings)
     }
-    const getOrdinal = num => {
-        switch (num % 10) {
-            case 1:
-                if (num < 10 || Math.floor(num / 10) !== 1) {
-                    return 'st'
-                } else {
-                    return 'th'
-                }
-            case 2:
-                if (num < 10 || Math.floor(num / 10) !== 1) {
-                    return 'nd'
-                } else {
-                    return 'th'
-                }
-            case 3:
-                if (num < 10 || Math.floor(num / 10) !== 1) {
-                    return 'rd'
-                } else {
-                    return 'th'
-                }
-            default:
-                return 'th'
-
-        }
-    }
 
     useEffect(() => {
             getOverallRankings()
@@ -57,7 +33,7 @@ export default function NameTable({lbData}) {
                     </th>
                 </tr>
                 <tr>
-                    <th className='bigHead' style={{fontWeight: 'normal'}}>
+                    <th style={{fontWeight: 'normal'}}>
                         Score
                     </th>
                 </tr>
