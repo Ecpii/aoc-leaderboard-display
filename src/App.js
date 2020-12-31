@@ -2,6 +2,7 @@ import React, {useState, useEffect, useMemo} from 'react'
 import './App.css';
 
 import Table from './Table.js'
+import NameTable from './NameTable.js'
 
 function App() {
     const [leaderboardData, setLeaderboardData] = useState([])
@@ -26,33 +27,31 @@ function App() {
     const generateTimestampCell = ({cell: {value}}, puzzleDay) => {
         let date = new Date(parseInt(value, 10) * 1000)
         let day = date.getDate()
-        let hours
         let minutes = '0' + date.getMinutes()
         let seconds = '0' + date.getSeconds()
         if (!relativeTimeUsed) {
-            hours = '0' + date.getHours()
+            let hours = '0' + date.getHours()
             return (
                 <>
-                    <p className='timestamp-day'>
-                        12/{day}
-                    </p>
                     <p className='timestamp-time'>
+                        12/{day}
+                        <br />
                         {hours.substr(-2)}:{minutes.substr(-2)}:{seconds.substr(-2)}
                     </p>
                 </>
             )
         } else {
-            hours = '00' + (date.getHours() + 24 * (day - puzzleDay))
+            let hours = '0' + date.getHours()
             return (
-                <>
-                    <p className='timestamp-time'>
-                        {hours.substr(-3)}:{minutes.substr(-2)}:{seconds.substr(-2)}
-                    </p>
-                </>
+                <p className='timestamp-time'>
+                    {day - puzzleDay + ' day' + ((day - puzzleDay === 1) ? '' : 's')},
+                    <br />
+                    {hours.substr(-2)}:{minutes.substr(-2)}:{seconds.substr(-2)}
+                </p>
             )
         }
     }
-    const generateTableColumns = () => {
+    const generatePuzzleColumns = () => {
         let tableColumns = []
         for (let i = 1; i <= 25; i++) {
             tableColumns.push({
@@ -73,10 +72,10 @@ function App() {
         }
         return tableColumns
     }
-    const columns = useMemo(
-        generateTableColumns, []
+    const puzzleColumns = useMemo(
+        generatePuzzleColumns, [] // react gets angry about this but if i put the dependency in there it renders too much
     )
-    const generatePlacings = () => {
+    const generateDayPlacings = () => {
         let placingsArray = []
         for (let i = 0; i < 50; i++) {
             let currentDayTimes = []
@@ -111,21 +110,26 @@ function App() {
     useEffect(() => {
         if (leaderboardData.length) {
             console.log(leaderboardData)
-            generatePlacings()
+            generateDayPlacings()
         }
     }, [leaderboardData])
-
 
     return (
         <div className="App">
             <header className="App-header">
                 <h1>Advent of Code Leaderboard</h1>
                 <hr/>
+                <button onClick={() => setRelativeTimeUsed(!relativeTimeUsed)}>
+                    {relativeTimeUsed ? 'Relative' : 'Absolute'} Time Display
+                </button>
                 <div className='tableArea'>
-                    <button onClick={() => setRelativeTimeUsed(!relativeTimeUsed)}>
-                        Toggle {relativeTimeUsed ? 'Relative' : 'Absolute'} Time Display
-                    </button>
-                    <Table columns={columns} data={leaderboardData} rankings={leaderboardPlacings}/>
+                    <div className='nameTable'>
+                        <NameTable lbData={leaderboardData} />
+                    </div>
+                    <div className='puzzleTable'>
+                        <Table columns={puzzleColumns} data={leaderboardData}
+                               rankings={leaderboardPlacings}/>
+                    </div>
                 </div>
             </header>
         </div>

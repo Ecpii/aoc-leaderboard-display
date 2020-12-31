@@ -14,8 +14,12 @@ table, th, td {
     border-collapse: collapse;
 }
 
-th, td {
+td {
     padding: 15px;
+}
+
+th {
+    padding: 7px;
 }
 
 button {
@@ -29,11 +33,28 @@ button {
 }
 
 .tableArea {
-    overflow: auto
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
-.bigHead {
-    padding: 7px;
+.puzzleTable {
+    overflow: auto;
+    flex-shrink: 4
+}
+
+.nameTable table {
+    /*margin: auto*/
+}
+
+.nameTable p {
+    margin: 1em auto;
+    text-align: center
+}
+
+.rankNum {
+    font-weight: bold;
+    color: #fff;
 }
 
 .timestamp-day {
