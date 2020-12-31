@@ -1,9 +1,9 @@
 import React from 'react';
-import { useTable } from 'react-table';
+import {useTable} from 'react-table';
 
 import PuzzleTableCell from "./PuzzleTableCell";
 
-export default function Table({ columns, data, rankings }) {
+export default function Table({columns, data, rankings}) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -34,7 +34,8 @@ export default function Table({ columns, data, rankings }) {
                     return (
                         <tr {...row.getRowProps()}>
                             {row.cells.map((cell, puzzleNum) => {
-                                return <PuzzleTableCell cell={cell} rank={1 + rankings[puzzleNum][memberIndex]} />
+                                return <PuzzleTableCell cell={cell}
+                                                        rank={1 + rankings[puzzleNum][memberIndex]}/>
                             })}
                         </tr>
                     );

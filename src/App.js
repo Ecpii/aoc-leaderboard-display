@@ -7,7 +7,6 @@ import NameTable from './NameTable.js'
 function App() {
     const [leaderboardData, setLeaderboardData] = useState([])
     const [leaderboardPlacings, setLeaderboardPlacings] = useState([])
-    const [relativeTimeUsed, setRelativeTimeUsed] = useState(true)
     const fetchLeaderboardData = () => {
         fetch('otherdata.json', {
             headers: {
@@ -32,27 +31,14 @@ function App() {
         let day = date.getDate()
         let minutes = '0' + date.getMinutes()
         let seconds = '0' + date.getSeconds()
-        if (!relativeTimeUsed) {
-            let hours = '0' + date.getHours()
-            return (
-                <>
-                    <p className='timestamp-time'>
-                        12/{day}
-                        <br/>
-                        {hours.substr(-2)}:{minutes.substr(-2)}:{seconds.substr(-2)}
-                    </p>
-                </>
-            )
-        } else {
-            let hours = '0' + date.getHours()
-            return (
-                <p className='timestamp-time'>
-                    {day - puzzleDay + ' day' + ((day - puzzleDay === 1) ? '' : 's')},
-                    <br/>
-                    {hours.substr(-2)}:{minutes.substr(-2)}:{seconds.substr(-2)}
-                </p>
-            )
-        }
+        let hours = '0' + date.getHours()
+        return (
+            <p className='timestamp-time'>
+                {day - puzzleDay + ' day' + ((day - puzzleDay === 1) ? '' : 's')},
+                <br/>
+                {hours.substr(-2)}:{minutes.substr(-2)}:{seconds.substr(-2)}
+            </p>
+        )
     }
     const generatePuzzleColumns = () => {
         let tableColumns = []
@@ -126,9 +112,6 @@ function App() {
             <header className="App-header">
                 <h1>Advent of Code Leaderboard</h1>
                 <hr/>
-                {/*<button onClick={() => setRelativeTimeUsed(!relativeTimeUsed)}>*/}
-                {/*    {relativeTimeUsed ? 'Relative' : 'Absolute'} Time Display*/}
-                {/*</button>*/}
                 <div className='tableArea'>
                     <div className='nameTable'>
                         <NameTable lbData={leaderboardData}/>

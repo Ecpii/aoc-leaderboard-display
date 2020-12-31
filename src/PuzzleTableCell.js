@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import getOrdinal from "./getOrdinal";
 
 export default function PuzzleTableCell({cell, rank}) {
@@ -12,7 +12,7 @@ export default function PuzzleTableCell({cell, rank}) {
                 <p className='puzzleRank'>
                     {rank + getOrdinal(rank)}
                 </p>
-            : cell.render('Cell')}
+                : cell.render('Cell')}
         </td>
     )
 
