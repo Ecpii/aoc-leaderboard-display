@@ -5,7 +5,7 @@ export default function PuzzleTableCell({cell, rank}) {
     const [cellHovered, setCellHovered] = useState(false)
 
     return (
-        <td {...cell.getCellProps()} className={'rank' + rank}
+        <td {...cell.getCellProps()} className={cell.value === undefined ? '' : 'rank' + rank}
             onMouseEnter={() => setCellHovered(true)}
             onMouseLeave={() => setCellHovered(false)}>
             {cellHovered ?

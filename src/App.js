@@ -9,7 +9,7 @@ function App() {
     const [leaderboardPlacings, setLeaderboardPlacings] = useState([])
     const [relativeTimeUsed, setRelativeTimeUsed] = useState(true)
     const fetchLeaderboardData = () => {
-        fetch('data.json', {
+        fetch('otherdata.json', {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -25,6 +25,9 @@ function App() {
             });
     }
     const generateTimestampCell = ({cell: {value}}, puzzleDay) => {
+        if (value === undefined) {
+            return null
+        }
         let date = new Date(parseInt(value, 10) * 1000)
         let day = date.getDate()
         let minutes = '0' + date.getMinutes()
@@ -35,7 +38,7 @@ function App() {
                 <>
                     <p className='timestamp-time'>
                         12/{day}
-                        <br />
+                        <br/>
                         {hours.substr(-2)}:{minutes.substr(-2)}:{seconds.substr(-2)}
                     </p>
                 </>
@@ -45,7 +48,7 @@ function App() {
             return (
                 <p className='timestamp-time'>
                     {day - puzzleDay + ' day' + ((day - puzzleDay === 1) ? '' : 's')},
-                    <br />
+                    <br/>
                     {hours.substr(-2)}:{minutes.substr(-2)}:{seconds.substr(-2)}
                 </p>
             )
@@ -82,11 +85,15 @@ function App() {
             let currentDayPlacings = []
             for (let memberIndex = 0; memberIndex < leaderboardData.length; memberIndex++) {
                 let puzzleTimestamps = leaderboardData[memberIndex]['completion_day_level']
+                let currentDay = Math.floor(i / 2) + 1
+                let currentPart = i % 2 + 1
                 currentDayTimes.push(
-                    parseInt(
-                        puzzleTimestamps[Math.floor(i / 2) + 1][i % 2 + 1]['get_star_ts'],
-                        10
-                    )
+                    (puzzleTimestamps[currentDay] === undefined
+                        || puzzleTimestamps[currentDay][currentPart] === undefined) ? Infinity :
+                        parseInt(
+                            puzzleTimestamps[currentDay][currentPart]['get_star_ts'],
+                            10
+                        )
                 )
             }
             for (let j = 0; j < currentDayTimes.length; j++) {
@@ -119,12 +126,12 @@ function App() {
             <header className="App-header">
                 <h1>Advent of Code Leaderboard</h1>
                 <hr/>
-                <button onClick={() => setRelativeTimeUsed(!relativeTimeUsed)}>
-                    {relativeTimeUsed ? 'Relative' : 'Absolute'} Time Display
-                </button>
+                {/*<button onClick={() => setRelativeTimeUsed(!relativeTimeUsed)}>*/}
+                {/*    {relativeTimeUsed ? 'Relative' : 'Absolute'} Time Display*/}
+                {/*</button>*/}
                 <div className='tableArea'>
                     <div className='nameTable'>
-                        <NameTable lbData={leaderboardData} />
+                        <NameTable lbData={leaderboardData}/>
                     </div>
                     <div className='puzzleTable'>
                         <Table columns={puzzleColumns} data={leaderboardData}
