@@ -15,7 +15,7 @@ export default function getOrdinal(num) {
         case 3:
             if (num < 10 || Math.floor(num / 10) !== 1) {
                 return 'rd'
-            } else {
+            } else {  // linter doesn't like switch fallthrough
                 return 'th'
             }
         default:

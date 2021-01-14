@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import getOrdinal from "./getOrdinal";
 
 
-export default function NameTable({lbData}) {
+function NameTable({lbData}) {
     const [overallRankings, setOverallRankings] = useState([])
     const getOverallRankings = () => {
         let rankings = []
@@ -28,7 +28,7 @@ export default function NameTable({lbData}) {
             <table>
                 <thead>
                 <tr>
-                    <th className='bigHead'>
+                    <th>
                         Name
                     </th>
                 </tr>
@@ -40,7 +40,7 @@ export default function NameTable({lbData}) {
                 </thead>
                 <tbody>
                 {lbData.map(
-                    (accountInfo, accountIndex) =>
+                    (accountInfo, accountIndex) => (
                         <tr key={accountInfo.id}>
                             <td>
                                 <p>
@@ -56,6 +56,7 @@ export default function NameTable({lbData}) {
                                 </p>
                             </td>
                         </tr>
+                    )
                 )}
                 </tbody>
             </table>
@@ -64,3 +65,5 @@ export default function NameTable({lbData}) {
         return null
     }
 }
+
+export default NameTable;

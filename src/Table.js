@@ -3,7 +3,7 @@ import {useTable} from 'react-table';
 
 import PuzzleTableCell from "./PuzzleTableCell";
 
-export default function Table({columns, data, rankings}) {
+function Table({columns, data, rankings}) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -47,3 +47,5 @@ export default function Table({columns, data, rankings}) {
         return null
     }
 }
+
+export default Table;
