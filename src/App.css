@@ -4,6 +4,10 @@ body {
     font-family: 'Source Code Pro', monospace;
 }
 
+p {
+    text-align: center
+}
+
 h1 {
     text-align: center;
     padding: 15px;
@@ -56,7 +60,6 @@ label {
 
 .nameTable p {
     margin: 1em auto;
-    text-align: center
 }
 
 .rankNum {

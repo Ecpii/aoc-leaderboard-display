@@ -1,21 +1,22 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import NameTable from "./NameTable";
 import Table from "./Table";
+import getRankings from "./getRankings";
 
 function CompleteTable({leaderboardData}) {
     const [leaderboardPlacings, setLeaderboardPlacings] = useState([])
     const generateTimestampCell = ({cell: {value}}, puzzleDay) => {
         if (!value) {
-            return null
+            return null // don't render anything if the person hasn't completed the day's puzzle
         }
         let date = new Date(parseInt(value, 10) * 1000)
-        let day = date.getDate()
+        let days = date.getDate() - puzzleDay
         let minutes = '0' + date.getMinutes()
         let seconds = '0' + date.getSeconds()
         let hours = '0' + date.getHours()
         return (
             <p className='timestamp-time'>
-                {day - puzzleDay + ' day' + ((day - puzzleDay === 1) ? '' : 's')},
+                {days + ' day' + ((days === 1) ? '' : 's')},
                 <br/>
                 {hours.substr(-2)}:{minutes.substr(-2)}:{seconds.substr(-2)}
             </p>
@@ -43,34 +44,26 @@ function CompleteTable({leaderboardData}) {
         return tableColumns
     }
     const puzzleColumns = useMemo(
-        generatePuzzleColumns, [] // react gets angry about this but if i put the dependency in there it renders too much
+        generatePuzzleColumns, []
     )
     const generateDayPlacings = () => {
         let placingsArray = []
         for (let i = 0; i < 50; i++) {
             let currentDayTimes = []
-            let currentDayPlacings = []
             for (let memberIndex = 0; memberIndex < leaderboardData.length; memberIndex++) {
-                let puzzleTimestamps = leaderboardData[memberIndex]['completion_day_level']
                 let currentDay = Math.floor(i / 2) + 1
                 let currentPart = i % 2 + 1
-                currentDayTimes.push(
-                    (!puzzleTimestamps[currentDay] || !puzzleTimestamps[currentDay][currentPart])
-                        ? Infinity : parseInt(
-                        puzzleTimestamps[currentDay][currentPart]['get_star_ts'], 10
-                        )
-                )
-            }
-            for (let j = 0; j < currentDayTimes.length; j++) {
-                let myPlacing = 0
-                for (let k = 0; k < currentDayTimes.length; k++) {
-                    if (currentDayTimes[k] < currentDayTimes[j]) {
-                        myPlacing++
-                    }
+                let puzzleTimestamps = leaderboardData[memberIndex]['completion_day_level'][currentDay]
+
+                if (!puzzleTimestamps || !puzzleTimestamps[currentPart]) {
+                    currentDayTimes.push(Infinity)
+                } else {
+                    currentDayTimes.push(
+                        parseInt(puzzleTimestamps[currentPart]['get_star_ts'], 10)
+                    )
                 }
-                currentDayPlacings.push(myPlacing)
             }
-            placingsArray.push(currentDayPlacings)
+            placingsArray.push(getRankings(currentDayTimes, false))
         }
         setLeaderboardPlacings(placingsArray)
     }

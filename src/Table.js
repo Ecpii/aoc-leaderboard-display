@@ -3,6 +3,10 @@ import {useTable} from 'react-table';
 
 import PuzzleTableCell from "./PuzzleTableCell";
 
+// the majority of the code in just this file
+// (with exception to the cell render method at lines 40-43 and the conditional null return)
+// comes from the react-table documentation at https://react-table.tanstack.com/docs/quick-start
+
 function Table({columns, data, rankings}) {
     const {
         getTableProps,

@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
 import getOrdinal from "./getOrdinal";
+import getRankings from "./getRankings";
 
 
 function NameTable({lbData}) {
     const [overallRankings, setOverallRankings] = useState([])
+    // modified version of getRankings to work with the raw json
     const getOverallRankings = () => {
         let rankings = []
         for (let i = 0; i < lbData.length; i++) {
@@ -18,10 +20,10 @@ function NameTable({lbData}) {
         setOverallRankings(rankings)
     }
 
+    // runs on first load
     useEffect(() => {
-            getOverallRankings()
-        }
-        , [lbData])
+        getOverallRankings()
+    }, [])
 
     if (lbData.length && overallRankings.length) {
         return (
@@ -45,9 +47,7 @@ function NameTable({lbData}) {
                             <td>
                                 <p>
                                     <span style={{color: '#fff'}}>
-                                    {accountInfo.name == null
-                                        ? '(#' + accountInfo.id + ')'
-                                        : accountInfo.name}
+                                        (censored)
                                     </span>
                                     <br/>
                                     <span className='rankNum'>
@@ -62,7 +62,7 @@ function NameTable({lbData}) {
             </table>
         )
     } else {
-        return null
+        return null  // return nothing if the data is not properly loaded yet
     }
 }
 
