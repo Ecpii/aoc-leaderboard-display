@@ -12,7 +12,7 @@ function NameTable({lbData}) {
         const totalScores = lbData.map(person => person.local_score)
         // get the rankings of those scores and store them in a state variable called overallRankings
         setOverallRankings(getRankings(totalScores, true))
-    }, [])
+    }, [lbData])
 
     if (lbData.length && overallRankings.length) {
         return (
