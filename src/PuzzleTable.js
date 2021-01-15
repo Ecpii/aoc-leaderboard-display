@@ -7,7 +7,7 @@ import PuzzleTableCell from "./PuzzleTableCell";
 // (with exception to the cell render method at lines 40-43 and the conditional null return)
 // comes from the react-table documentation at https://react-table.tanstack.com/docs/quick-start
 
-function Table({columns, data, rankings}) {
+function PuzzleTable({columns, data, rankings}) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -26,6 +26,8 @@ function Table({columns, data, rankings}) {
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
                             <th {...column.getHeaderProps()}>
+                                {/* will render every header specified in the columns
+                                passed to this component as a table header */}
                                 {column.render('Header')}
                             </th>
                         ))}
@@ -38,8 +40,12 @@ function Table({columns, data, rankings}) {
                     return (
                         <tr {...row.getRowProps()}>
                             {row.cells.map((cell, puzzleNum) => {
-                                return <PuzzleTableCell cell={cell}
-                                                        rank={1 + rankings[puzzleNum][memberIndex]}/>
+                                // will render a custom-made table cell passing in the timestamp
+                                // and rank in the current day/puzzle
+                                return <PuzzleTableCell
+                                    cell={cell}
+                                    rank={1 + rankings[puzzleNum][memberIndex]}
+                                />
                             })}
                         </tr>
                     );
@@ -48,8 +54,8 @@ function Table({columns, data, rankings}) {
             </table>
         )
     } else {
-        return null
+        return null // don't render anything if the data has not been passed in yet
     }
 }
 
-export default Table;
+export default PuzzleTable;

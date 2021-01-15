@@ -1,3 +1,5 @@
+/* this file does not contain any meaningful code, just styling */
+
 body {
     background: #0f0f23;
     color: #ccc;
@@ -26,6 +28,8 @@ th {
 }
 
 input[type=file] {
+    /* essentially hide the default input, code is from Osvaldas Valutis
+    in this guide: https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/*/
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -44,7 +48,6 @@ label {
     border: 2px solid grey;
     padding: 15px;
     width: 200px;
-
 }
 
 .tableArea {
@@ -91,6 +94,6 @@ label {
 }
 
 .rank3 {
-    background-color: #9f683e;
+    background-color: #a64;
     color: #000;
 }

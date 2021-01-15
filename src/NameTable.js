@@ -5,24 +5,13 @@ import getRankings from "./getRankings";
 
 function NameTable({lbData}) {
     const [overallRankings, setOverallRankings] = useState([])
-    // modified version of getRankings to work with the raw json
-    const getOverallRankings = () => {
-        let rankings = []
-        for (let i = 0; i < lbData.length; i++) {
-            let currentRanking = 1
-            for (let k = 0; k < lbData.length; k++) {
-                if (lbData[k]['local_score'] > lbData[i]['local_score']) {
-                    currentRanking++
-                }
-            }
-            rankings.push(currentRanking)
-        }
-        setOverallRankings(rankings)
-    }
 
     // runs on first load
     useEffect(() => {
-        getOverallRankings()
+        // get the local score of each person and store them in an array
+        const totalScores = lbData.map(person => person.local_score)
+        // get the rankings of those scores and store them in a state variable called overallRankings
+        setOverallRankings(getRankings(totalScores, true))
     }, [])
 
     if (lbData.length && overallRankings.length) {
@@ -41,8 +30,9 @@ function NameTable({lbData}) {
                 </tr>
                 </thead>
                 <tbody>
-                {lbData.map(
-                    (accountInfo, accountIndex) => (
+                {lbData.map((accountInfo, accountIndex) => {
+                    const overallRank = overallRankings[accountIndex] + 1;
+                    return (
                         <tr key={accountInfo.id}>
                             <td>
                                 <p>
@@ -51,13 +41,15 @@ function NameTable({lbData}) {
                                     </span>
                                     <br/>
                                     <span className='rankNum'>
-                                        {overallRankings[accountIndex] + getOrdinal(overallRankings[accountIndex])}
+                                        {/*renders the rank of the user within the group, as well
+                                        as the ordinal after it (e.g. 'st', 'nd', 'th')*/}
+                                        {overallRank + getOrdinal(overallRank)}
                                     </span> - {accountInfo['local_score']}
                                 </p>
                             </td>
                         </tr>
                     )
-                )}
+                })}
                 </tbody>
             </table>
         )

@@ -6,12 +6,13 @@ import CompleteTable from "./CompleteTable";
 function App() {
     const [fileUploaded, setFileUploaded] = useState({})
     const [fileData, setFileData] = useState({})
+    // runs whenever the fileUploaded is changed (i.e. whenever user uploads a file)
     useEffect(() => {
-        console.log(fileUploaded)
         if (fileUploaded.name) {
-            let reader = new FileReader()
+            const reader = new FileReader()
             reader.readAsText(fileUploaded)
             reader.onload = () => {
+                // parses the file as json
                 setFileData(JSON.parse(reader.result))
             }
         }
@@ -32,7 +33,7 @@ function App() {
                             setFileUploaded(e.target.files[0])
                         }} />
                 </label>
-                {!Object.keys(fileData).length
+                {!Object.keys(fileData).length // check if the file is not empty
                     ? null : <CompleteTable leaderboardData={Object.values(fileData.members)}/>}
             </header>
         </div>

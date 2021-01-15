@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import NameTable from "./NameTable";
-import Table from "./Table";
+import PuzzleTable from "./PuzzleTable";
 import getRankings from "./getRankings";
 
 function CompleteTable({leaderboardData}) {
@@ -9,11 +9,11 @@ function CompleteTable({leaderboardData}) {
         if (!value) {
             return null // don't render anything if the person hasn't completed the day's puzzle
         }
-        let date = new Date(parseInt(value, 10) * 1000)
-        let days = date.getDate() - puzzleDay
-        let minutes = '0' + date.getMinutes()
-        let seconds = '0' + date.getSeconds()
-        let hours = '0' + date.getHours()
+        const date = new Date(parseInt(value, 10) * 1000)
+        const days = date.getDate() - puzzleDay
+        const minutes = '0' + date.getMinutes()
+        const seconds = '0' + date.getSeconds()
+        const hours = '0' + date.getHours()
         return (
             <p className='timestamp-time'>
                 {days + ' day' + ((days === 1) ? '' : 's')},
@@ -23,13 +23,15 @@ function CompleteTable({leaderboardData}) {
         )
     }
     const generatePuzzleColumns = () => {
-        let tableColumns = []
+        const tableColumns = []
+        // tableColumns is an array of nearly identical objects, only differing in day numbers
         for (let i = 1; i <= 25; i++) {
             tableColumns.push({
                 Header: 'Day ' + i,
                 columns: [
                     {
                         Header: 'Part 1',
+                        // accessor is the path in each person object where the desired data is pulled from
                         accessor: 'completion_day_level.' + i + '.1.get_star_ts',
                         Cell: (cell) => generateTimestampCell(cell, i)
                     },
@@ -47,13 +49,19 @@ function CompleteTable({leaderboardData}) {
         generatePuzzleColumns, []
     )
     const generateDayPlacings = () => {
-        let placingsArray = []
+        // an array of the placings of each day/part, e.g.
+        // [[1, 2, 3], [2, 1, 3]]
+        // would mean that on the first day/part, the person at index 0 was first to solve the puzzle
+        // and that they were the second to solve it on the second day/part. the person at index 2 solved
+        // it slowest both day/parts
+        const placingsArray = []
         for (let i = 0; i < 50; i++) {
-            let currentDayTimes = []
+            // an array to store the unix timestamps of each day for ranking purposes
+            const currentDayTimes = []
             for (let memberIndex = 0; memberIndex < leaderboardData.length; memberIndex++) {
-                let currentDay = Math.floor(i / 2) + 1
-                let currentPart = i % 2 + 1
-                let puzzleTimestamps = leaderboardData[memberIndex]['completion_day_level'][currentDay]
+                const currentDay = Math.floor(i / 2) + 1
+                const currentPart = i % 2 + 1
+                const puzzleTimestamps = leaderboardData[memberIndex]['completion_day_level'][currentDay]
 
                 if (!puzzleTimestamps || !puzzleTimestamps[currentPart]) {
                     currentDayTimes.push(Infinity)
@@ -68,9 +76,10 @@ function CompleteTable({leaderboardData}) {
         setLeaderboardPlacings(placingsArray)
     }
 
+    // run whenever leaderboardData changes
     useEffect(() => {
         if (leaderboardData.length) {
-            console.log(leaderboardData)
+            // when leaderboardData exists, generate the rankings of each day
             generateDayPlacings()
         }
     }, [leaderboardData])
@@ -81,8 +90,11 @@ function CompleteTable({leaderboardData}) {
                 <NameTable lbData={leaderboardData}/>
             </div>
             <div className='puzzleTable'>
-                <Table columns={puzzleColumns} data={leaderboardData}
-                       rankings={leaderboardPlacings}/>
+                <PuzzleTable
+                    columns={puzzleColumns}
+                    data={leaderboardData}
+                    rankings={leaderboardPlacings}
+                />
             </div>
         </div>
     )
