@@ -25,7 +25,7 @@ function App() {
                 <hr/>
                 <p>Names in the leaderboard are censored such that no personally identifiable information is released.</p>
                 <label>
-                    {fileUploaded.name ? fileUploaded.name : 'Upload private leaderboard JSON'}
+                    {fileUploaded.name || 'Upload private leaderboard JSON'}
                     <input
                         type="file"
                         accept=".json"
